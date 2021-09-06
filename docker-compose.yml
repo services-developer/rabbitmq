@@ -5,16 +5,16 @@ services:
     image: "rabbitmq:3-management"
     container_name: rabbitmq
     hostname: "rabbitmq"
-    environment:
-      RABBITMQ_ERLANG_COOKIE: "SWQOKODSQALRPCLNMEQG"
-      RABBITMQ_DEFAULT_USER: "rabbitmq"
-      RABBITMQ_DEFAULT_PASS: "rabbitmq"
-      RABBITMQ_DEFAULT_VHOST: "/"
+    volumes:
+      - ./etc/definitions.json:/etc/rabbitmq/definitions.json
+      - ./etc/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+      - ./data:/var/lib/rabbitmq/mnesia/rabbit@my-rabbit
+      - ./logs:/var/log/rabbitmq/log
     ports:
-      - "15672:15672"
       - "5672:5672"
-    labels:
-      NAME: "rabbitmq"
+      - "15672:15672"
+    environment:
+      - VIRTUAL_HOST=rabbitmq.loc
 
 networks:
   default:
